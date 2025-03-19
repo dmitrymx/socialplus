@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - SocialPlus{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- Левая колонка - Профиль и навигация -->
+        <div class="md:col-span-1">
+            {% if current_user.is_authenticated %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4 animate-gradient">
+                    <div class="flex items-center">
+                        <a href="{{ url_for('main.user', username=current_user.username) }}" class="block relative">
+                            <img src="{{ url_for('static', filename='images/' + current_user.avatar_url) }}" 
+                                 alt="{{ current_user.username }}" 
+                                 class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg hover-scale">
+                            <div class="absolute bottom-0 right-0 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse-custom"></div>
+                        </a>
+                        <div class="ml-4">
+                            <a href="{{ url_for('main.user', username=current_user.username) }}" class="text-white font-bold text-lg hover:text-blue-100 transition-all duration-300">{{ current_user.username }}</a>
+                            <p class="text-blue-100 text-sm">@{{ current_user.username }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between mb-2">
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-gray-800">{{ current_user.posts.count() }}</div>
+                            <div class="text-gray-500 text-sm">Постов</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-gray-800">{{ current_user.followers.count() }}</div>
+                            <div class="text-gray-500 text-sm">Подписчиков</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-gray-800">{{ current_user.followed.count() }}</div>
+                            <div class="text-gray-500 text-sm">Подписок</div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ url_for('main.edit_profile') }}" class="block w-full py-2 bg-gray-100 text-center text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-300 hover-glow">
+                            <i class="fas fa-user-edit mr-2"></i> Редактировать профиль
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-center text-white animate-gradient">
+                    <h2 class="text-xl font-bold mb-2">Добро пожаловать в SocialPlus!</h2>
+                    <p class="text-blue-100 mb-4">Присоединяйтесь к нашему сообществу</p>
+                    <div class="flex space-x-3">
+                        <a href="{{ url_for('auth.login') }}" class="flex-1 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-300 hover-glow">
+                            <i class="fas fa-sign-in-alt mr-1"></i> Войти
+                        </a>
+                        <a href="{{ url_for('auth.register') }}" class="flex-1 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-all duration-300 hover-glow">
+                            <i class="fas fa-user-plus mr-1"></i> Регистрация
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-gray-800">Навигация</h3>
+                </div>
+                <div class="p-2">
+                    <a href="{{ url_for('main.index') }}" class="flex items-center p-3 text-gray-700 rounded-lg hover:bg-blue-50 transition-all duration-300 animate-slide-in" style="animation-delay: 0.1s;">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-home text-blue-600"></i>
+                        </div>
+                        <span>Главная</span>
+                    </a>
+                    <a href="{{ url_for('main.explore') }}" class="flex items-center p-3 text-gray-700 rounded-lg hover:bg-blue-50 transition-all duration-300 animate-slide-in" style="animation-delay: 0.2s;">
+                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-compass text-purple-600"></i>
+                        </div>
+                        <span>Исследовать</span>
+                    </a>
+                    <a href="{{ url_for('main.groups') }}" class="flex items-center p-3 text-gray-700 rounded-lg hover:bg-blue-50 transition-all duration-300 animate-slide-in" style="animation-delay: 0.25s;">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-users text-indigo-600"></i>
+                        </div>
+                        <span>Группы</span>
+                    </a>
+                    <a href="#" class="flex items-center p-3 text-gray-700 rounded-lg hover:bg-blue-50 transition-all duration-300 animate-slide-in" style="animation-delay: 0.4s;">
+                        <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-bookmark text-yellow-600"></i>
+                        </div>
+                        <span>Закладки</span>
+                    </a>
+                    <a href="#" class="flex items-center p-3 text-gray-700 rounded-lg hover:bg-blue-50 transition-all duration-300 animate-slide-in" style="animation-delay: 0.5s;">
+                        <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-heart text-red-600"></i>
+                        </div>
+                        <span>Понравившиеся</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-gray-800">Популярные хэштеги</h3>
+                </div>
+                <div class="p-4">
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#" class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition-all duration-300 text-sm animate-fade-up" style="animation-delay: 0.1s;">
+                            #технологии
+                        </a>
+                        <a href="#" class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition-all duration-300 text-sm animate-fade-up" style="animation-delay: 0.2s;">
+                            #дизайн
+                        </a>
+                        <a href="#" class="px-3 py-1 bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition-all duration-300 text-sm animate-fade-up" style="animation-delay: 0.3s;">
+                            #программирование
+                        </a>
+                        <a href="#" class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full hover:bg-yellow-200 transition-all duration-300 text-sm animate-fade-up" style="animation-delay: 0.4s;">
+                            #искусство
+                        </a>
+                        <a href="#" class="px-3 py-1 bg-red-100 text-red-600 rounded-full hover:bg-red-200 transition-all duration-300 text-sm animate-fade-up" style="animation-delay: 0.5s;">
+                            #музыка
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Центральная колонка - Лента постов -->
+        <div class="md:col-span-2">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="p-4 border-b">
+                    <h2 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 animate-pulse-custom">
+                        <i class="fas fa-newspaper mr-2"></i> Лента новостей
+                    </h2>
+                </div>
+                
+                {% if current_user.is_authenticated %}
+                <div class="p-4 border-b">
+                    <a href="{{ url_for('posts.create_post') }}" class="block w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <i class="fas fa-plus-circle mr-2"></i> Создать новый пост
+                    </a>
+                </div>
+                {% endif %}
+                
+                {% if posts %}
+                <div class="divide-y">
+                    {% for post in posts %}
+                    <div class="p-6 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                        <div class="flex">
+                            <a href="{{ url_for('main.user', username=post.author.username) }}" class="block mr-4">
+                                <img src="{{ url_for('static', filename='images/' + post.author.avatar_url) }}" 
+                                     alt="{{ post.author.username }}" 
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-gray-200 hover-scale">
+                            </a>
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <a href="{{ url_for('main.user', username=post.author.username) }}" class="font-bold text-gray-900 hover:text-blue-600 transition-all duration-300">{{ post.author.username }}</a>
+                                    <span class="mx-2 text-gray-400">•</span>
+                                    <span class="text-gray-500 text-sm">{{ post.timestamp.strftime('%d.%m.%Y %H:%M') }}</span>
+                                </div>
+                                <p class="text-gray-800 mb-3">{{ post.formatted_content() | safe }}</p>
+                                
+                                {% if post.image_url %}
+                                <div class="mb-3 rounded-lg overflow-hidden">
+                                    <img src="{{ url_for('static', filename='images/' + post.image_url) }}" 
+                                         alt="Изображение поста" 
+                                         class="w-full rounded-lg transition-all duration-500 hover:scale-105">
+                                </div>
+                                {% endif %}
+                                
+                                <div class="flex items-center text-gray-500">
+                                    <button onclick="likePost({{ post.id }})" id="like-btn-{{ post.id }}" 
+                                            class="flex items-center mr-4 hover:text-red-500 transition-all duration-300 {% if current_user.is_authenticated and post.is_liked_by(current_user) %}text-red-500{% endif %}">
+                                        <i class="{% if current_user.is_authenticated and post.is_liked_by(current_user) %}fas{% else %}far{% endif %} fa-heart mr-1 hover-scale"></i>
+                                        <span id="like-count-{{ post.id }}">{{ post.like_count() }}</span>
+                                    </button>
+                                    <a href="{{ url_for('posts.post', id=post.id) }}" class="flex items-center mr-4 hover:text-blue-600 transition-all duration-300">
+                                        <i class="far fa-comment mr-1 hover-scale"></i>
+                                        <span>{{ post.comments.count() }}</span>
+                                    </a>
+                                    <button class="flex items-center mr-4 hover:text-green-500 transition-all duration-300">
+                                        <i class="far fa-share-square mr-1 hover-scale"></i>
+                                        <span>Поделиться</span>
+                                    </button>
+                                    
+                                    {% if current_user.is_authenticated and post.author == current_user %}
+                                    <a href="{{ url_for('posts.delete_post', id=post.id) }}" 
+                                       class="ml-auto text-red-500 hover:text-red-700 transition-all duration-300"
+                                       onclick="return confirm('Вы уверены, что хотите удалить этот пост?')">
+                                        <i class="fas fa-trash hover-scale"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Комментарии -->
+                                {% if post.comments.count() > 0 %}
+                                <div class="mt-4 pt-3 border-t">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Комментарии:</h4>
+                                    {% for comment in post.comments[:2] %}
+                                    <div class="flex items-start mb-2">
+                                        <a href="{{ url_for('main.user', username=comment.user.username) }}" class="block mr-2">
+                                            <img src="{{ url_for('static', filename='images/' + comment.user.avatar_url) }}" 
+                                                 alt="{{ comment.user.username }}" 
+                                                 class="w-8 h-8 rounded-full object-cover border border-gray-200">
+                                        </a>
+                                        <div class="flex-1 bg-gray-100 rounded-lg p-2">
+                                            <div class="flex justify-between items-center">
+                                                <a href="{{ url_for('main.user', username=comment.user.username) }}" class="font-medium text-gray-900 hover:text-blue-600 transition-all duration-300 text-sm">{{ comment.user.username }}</a>
+                                                <span class="text-gray-500 text-xs">{{ comment.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                                            </div>
+                                            <p class="text-gray-800 text-sm mt-1">{{ comment.content }}</p>
+                                            
+                                            {% if current_user.is_authenticated and comment.user == current_user %}
+                                            <div class="flex justify-end mt-1">
+                                                <a href="{{ url_for('posts.delete_comment', id=comment.id) }}" 
+                                                   class="text-red-500 hover:text-red-700 transition-all duration-300 text-xs"
+                                                   onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')">
+                                                    <i class="fas fa-times"></i> Удалить
+                                                </a>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    {% if post.comments.count() > 2 %}
+                                    <a href="{{ url_for('posts.post', id=post.id) }}" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                        Показать все комментарии ({{ post.comments.count() }})
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                
+                                {% if current_user.is_authenticated %}
+                                <div class="mt-3 pt-3 border-t">
+                                    <form action="{{ url_for('posts.post', id=post.id) }}" method="post" class="flex">
+                                        <img src="{{ url_for('static', filename='images/' + current_user.avatar_url) }}" 
+                                             alt="{{ current_user.username }}" 
+                                             class="w-8 h-8 rounded-full object-cover border border-gray-200 mr-2">
+                                        <div class="flex-1 relative">
+                                            <input type="text" name="content" id="comment-input-{{ post.id }}" placeholder="Написать комментарий..." 
+                                                   class="w-full px-3 py-2 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-300">
+                                            <button type="button" class="absolute right-12 top-2 text-gray-500 hover:text-blue-500" 
+                                                    onclick="toggleEmojiPicker('emoji-picker-{{ post.id }}')">
+                                                <i class="far fa-smile"></i>
+                                            </button>
+                                            <div id="emoji-picker-{{ post.id }}" class="emoji-picker hidden absolute bottom-full right-0 mb-2 bg-white rounded-lg shadow-lg p-2 z-10">
+                                                <div class="grid grid-cols-8 gap-1">
+                                                    {% for emoji_code in [':smile:', ':heart:', ':thumbsup:', ':clap:', ':fire:', ':star:', ':thinking:', ':joy:', 
+                                                                         ':sunglasses:', ':wink:', ':heart_eyes:', ':kissing_heart:', ':sob:', ':angry:', 
+                                                                         ':tada:', ':gift:', ':birthday:', ':balloon:', ':rocket:', ':rainbow:', 
+                                                                         ':sunny:', ':moon:', ':cloud:', ':umbrella:', ':snowflake:', ':zap:', 
+                                                                         ':ocean:', ':earth_americas:', ':mountain:', ':palm_tree:', ':tulip:', ':rose:'] %}
+                                                    <button type="button" class="w-8 h-8 hover:bg-gray-100 rounded" 
+                                                            onclick="addEmoji('{{ emoji_code }}', 'comment-input-{{ post.id }}')">
+                                                        {{ emoji_code | emoji }}
+                                                    </button>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="ml-2 px-3 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="p-8 text-center">
+                    <div class="text-gray-400 mb-4 animate-bounce-custom">
+                        <i class="fas fa-newspaper text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Нет постов</h3>
+                    <p class="text-gray-600 mb-4">Подпишитесь на других пользователей, чтобы видеть их посты в ленте</p>
+                    
+                    <a href="{{ url_for('main.explore') }}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover-glow">
+                        <i class="fas fa-compass mr-2"></i> Исследовать
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Правая колонка - Рекомендации и тренды -->
+        <div class="md:col-span-1">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-gray-800">Кого подписаться</h3>
+                </div>
+                <div class="divide-y">
+                    {% for user in range(1, 4) %}
+                    <div class="p-4 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ user * 0.1 }}s;">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-gray-200 mr-3"></div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Пользователь {{ user }}</div>
+                                    <div class="text-gray-500 text-sm">@user{{ user }}</div>
+                                </div>
+                            </div>
+                            <button class="px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-sm hover-glow">
+                                <i class="fas fa-user-plus mr-1"></i> Подписаться
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="p-3 text-center">
+                        <a href="{{ url_for('main.explore') }}" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                            Показать больше
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-gray-800">Популярные темы</h3>
+                </div>
+                <div class="divide-y">
+                    {% for topic in range(1, 6) %}
+                    <div class="p-4 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ topic * 0.1 }}s;">
+                        <div class="mb-1 font-medium text-gray-900">#Тема{{ topic }}</div>
+                        <div class="text-gray-500 text-sm">{{ topic * 100 + 50 }} постов</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover-lift glass-effect">
+                <div class="p-4 border-b">
+                    <h3 class="font-bold text-gray-800">Последние новости</h3>
+                </div>
+                <div class="divide-y">
+                    {% for news in range(1, 4) %}
+                    <div class="p-4 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ news * 0.1 }}s;">
+                        <div class="mb-2 font-medium text-gray-900">Новость {{ news }}</div>
+                        <p class="text-gray-600 text-sm mb-2">Краткое описание новости {{ news }}. Нажмите, чтобы узнать больше.</p>
+                        <div class="text-gray-500 text-xs">{{ news }} ч назад</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function likePost(postId) {
+        fetch(`/like/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const likeBtn = document.getElementById(`like-btn-${postId}`);
+            const likeCount = document.getElementById(`like-count-${postId}`);
+            
+            if (data.status === 'liked') {
+                likeBtn.querySelector('i').classList.remove('far');
+                likeBtn.querySelector('i').classList.add('fas');
+                likeBtn.classList.add('text-red-500');
+            } else {
+                likeBtn.querySelector('i').classList.remove('fas');
+                likeBtn.querySelector('i').classList.add('far');
+                likeBtn.classList.remove('text-red-500');
+            }
+            
+            likeCount.textContent = data.count;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    // Эмодзи функции
+    let activeEmojiPicker = null;
+    
+    function toggleEmojiPicker(pickerId) {
+        const picker = document.getElementById(pickerId);
+        
+        // Закрываем предыдущий открытый пикер
+        if (activeEmojiPicker && activeEmojiPicker !== picker) {
+            activeEmojiPicker.classList.add('hidden');
+        }
+        
+        // Переключаем текущий пикер
+        picker.classList.toggle('hidden');
+        activeEmojiPicker = picker.classList.contains('hidden') ? null : picker;
+    }
+    
+    function addEmoji(emojiCode, inputId) {
+        const input = document.getElementById(inputId);
+        input.value += ` ${emojiCode} `;
+        input.focus();
+    }
+    
+    // Закрываем эмодзи пикер при клике вне его
+    document.addEventListener('click', function(event) {
+        if (activeEmojiPicker && !event.target.closest('.emoji-picker') && !event.target.closest('button[onclick^="toggleEmojiPicker"]')) {
+            activeEmojiPicker.classList.add('hidden');
+            activeEmojiPicker = null;
+        }
+    });
+</script>
+{% endblock %} 

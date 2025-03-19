@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Создать группу - SocialPlus{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white animate-gradient">
+            <h1 class="text-2xl font-bold">Создать новую группу</h1>
+        </div>
+        <div class="p-6">
+            <form method="post" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                
+                <div class="mb-4">
+                    <label for="{{ form.name.id }}" class="block text-gray-700 font-medium mb-2">{{ form.name.label }}</label>
+                    {{ form.name(class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300") }}
+                    {% for error in form.name.errors %}
+                    <span class="text-red-500 text-sm">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.description.id }}" class="block text-gray-700 font-medium mb-2">{{ form.description.label }}</label>
+                    {{ form.description(class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300", rows=4) }}
+                    {% for error in form.description.errors %}
+                    <span class="text-red-500 text-sm">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="mb-6">
+                    <label for="{{ form.avatar.id }}" class="block text-gray-700 font-medium mb-2">{{ form.avatar.label }}</label>
+                    <div class="flex items-center">
+                        <label class="w-full flex flex-col items-center px-4 py-6 bg-white text-blue-600 rounded-lg shadow-lg tracking-wide border border-blue-500 cursor-pointer hover:bg-blue-500 hover:text-white transition-all duration-300">
+                            <i class="fas fa-cloud-upload-alt text-3xl"></i>
+                            <span class="mt-2 text-base">Выберите изображение</span>
+                            {{ form.avatar(class="hidden", onchange="updateFileName(this)") }}
+                        </label>
+                    </div>
+                    <div id="file-name" class="mt-2 text-gray-600 text-sm"></div>
+                    {% for error in form.avatar.errors %}
+                    <span class="text-red-500 text-sm">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="flex justify-between">
+                    <a href="{{ url_for('main.groups') }}" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i> Назад
+                    </a>
+                    {{ form.submit(class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function updateFileName(input) {
+        const fileNameDiv = document.getElementById('file-name');
+        if (input.files && input.files[0]) {
+            fileNameDiv.textContent = 'Выбрано: ' + input.files[0].name;
+        } else {
+            fileNameDiv.textContent = '';
+        }
+    }
+</script>
+{% endblock %} 

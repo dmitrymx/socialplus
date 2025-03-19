@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}Разработчикам - SocialPlus{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white animate-gradient">
+            <h1 class="text-3xl font-bold flex items-center">
+                <i class="fas fa-code mr-3 animate-pulse-custom"></i> Для разработчиков
+            </h1>
+            <p class="text-blue-100 mt-2">Инструменты и ресурсы для интеграции с SocialPlus</p>
+        </div>
+        
+        <div class="p-6">
+            <div class="space-y-8">
+                <div class="animate-fade-up" style="animation-delay: 0.1s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">API SocialPlus</h2>
+                    <p class="text-gray-700 mb-4">
+                        SocialPlus предоставляет мощный API, который позволяет разработчикам интегрировать функциональность 
+                        нашей платформы в свои приложения. Наш API основан на REST и возвращает данные в формате JSON.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="text-blue-600 text-2xl mb-2">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Документация</h3>
+                            <p class="text-gray-700 text-sm mb-2">Подробная документация по всем эндпоинтам API</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                Перейти <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="text-green-600 text-2xl mb-2">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Ключи API</h3>
+                            <p class="text-gray-700 text-sm mb-2">Получите ключи для доступа к API SocialPlus</p>
+                            <a href="#" class="text-green-600 hover:text-green-800 transition-all duration-300 text-sm">
+                                Получить ключи <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <div class="text-purple-600 text-2xl mb-2">
+                                <i class="fas fa-code-branch"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">SDK</h3>
+                            <p class="text-gray-700 text-sm mb-2">Библиотеки для популярных языков программирования</p>
+                            <a href="#" class="text-purple-600 hover:text-purple-800 transition-all duration-300 text-sm">
+                                Скачать SDK <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.2s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Примеры использования API</h2>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h3 class="font-bold text-gray-800 mb-2">Получение списка постов</h3>
+                        <div class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto">
+                            <pre><code>curl -X GET "https://api.socialplus.com/v1/posts" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-H "Content-Type: application/json"</code></pre>
+                        </div>
+                        <p class="text-gray-700 text-sm mt-2">
+                            Этот запрос вернет список последних публичных постов в формате JSON.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h3 class="font-bold text-gray-800 mb-2">Создание нового поста</h3>
+                        <div class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto">
+                            <pre><code>curl -X POST "https://api.socialplus.com/v1/posts" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+  "content": "Привет, мир! Это пост, созданный через API.",
+  "image_url": "https://example.com/image.jpg"
+}'</code></pre>
+                        </div>
+                        <p class="text-gray-700 text-sm mt-2">
+                            Этот запрос создаст новый пост с указанным содержимым и изображением.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-800 mb-2">Получение информации о пользователе</h3>
+                        <div class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto">
+                            <pre><code>curl -X GET "https://api.socialplus.com/v1/users/username" \
+-H "Authorization: Bearer YOUR_API_KEY" \
+-H "Content-Type: application/json"</code></pre>
+                        </div>
+                        <p class="text-gray-700 text-sm mt-2">
+                            Этот запрос вернет публичную информацию о пользователе с указанным именем пользователя.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.3s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Виджеты для вашего сайта</h2>
+                    <p class="text-gray-700 mb-4">
+                        Интегрируйте контент SocialPlus на свой сайт с помощью наших готовых виджетов. 
+                        Просто скопируйте код и вставьте его на свою страницу.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border rounded-lg overflow-hidden">
+                            <div class="p-4 bg-gray-50 font-medium text-gray-800">
+                                Виджет ленты постов
+                            </div>
+                            <div class="p-4">
+                                <div class="bg-gray-100 p-4 rounded-lg mb-3">
+                                    <div class="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+                                        <span class="text-gray-500">Предпросмотр виджета</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-800 text-gray-200 p-3 rounded-lg text-sm overflow-x-auto mb-3">
+                                    <pre><code>&lt;script src="https://widgets.socialplus.com/feed.js" 
+        data-username="your_username" 
+        data-count="5"&gt;&lt;/script&gt;</code></pre>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Подробнее о настройке <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded-lg overflow-hidden">
+                            <div class="p-4 bg-gray-50 font-medium text-gray-800">
+                                Кнопка "Поделиться"
+                            </div>
+                            <div class="p-4">
+                                <div class="bg-gray-100 p-4 rounded-lg mb-3">
+                                    <div class="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+                                        <span class="text-gray-500">Предпросмотр виджета</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-800 text-gray-200 p-3 rounded-lg text-sm overflow-x-auto mb-3">
+                                    <pre><code>&lt;script src="https://widgets.socialplus.com/share.js" 
+        data-url="https://your-site.com/page" 
+        data-title="Заголовок страницы"&gt;&lt;/script&gt;</code></pre>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Подробнее о настройке <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.4s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Программа для разработчиков</h2>
+                    <p class="text-gray-700 mb-4">
+                        Присоединяйтесь к нашей программе для разработчиков, чтобы получить доступ к расширенным 
+                        возможностям API, техническую поддержку и возможность монетизации своих приложений.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-bold text-gray-800 mb-2">Базовый</h3>
+                            <p class="text-gray-500 mb-2">Бесплатно</p>
+                            <ul class="text-gray-700 text-sm space-y-2 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>1,000 запросов в день</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Доступ к базовым эндпоинтам</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Документация и примеры</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="block w-full py-2 bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700 transition-all duration-300">
+                                Начать бесплатно
+                            </a>
+                        </div>
+                        
+                        <div class="border rounded-lg p-4 bg-blue-50">
+                            <div class="absolute -mt-8 ml-24 bg-blue-600 text-white px-3 py-1 rounded-full text-xs">
+                                Популярный
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Профессиональный</h3>
+                            <p class="text-gray-500 mb-2">$49/месяц</p>
+                            <ul class="text-gray-700 text-sm space-y-2 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>10,000 запросов в день</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Доступ ко всем эндпоинтам</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Техническая поддержка</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Аналитика использования</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="block w-full py-2 bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700 transition-all duration-300">
+                                Выбрать план
+                            </a>
+                        </div>
+                        
+                        <div class="border rounded-lg p-4">
+                            <h3 class="font-bold text-gray-800 mb-2">Корпоративный</h3>
+                            <p class="text-gray-500 mb-2">$199/месяц</p>
+                            <ul class="text-gray-700 text-sm space-y-2 mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Неограниченное количество запросов</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Приоритетная поддержка</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Выделенный менеджер</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Расширенная аналитика</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>SLA 99.9%</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="block w-full py-2 bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700 transition-all duration-300">
+                                Связаться с нами
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.5s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Ресурсы для разработчиков</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-laptop-code text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Примеры проектов</h3>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    Изучите примеры проектов, которые используют API SocialPlus для различных целей.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Перейти к примерам <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-chalkboard-teacher text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Обучающие материалы</h3>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    Видеоуроки, статьи и руководства по использованию API SocialPlus.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Перейти к обучению <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-users text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Сообщество разработчиков</h3>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    Присоединяйтесь к сообществу разработчиков SocialPlus для обмена опытом и идеями.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Присоединиться к сообществу <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-headset text-red-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Техническая поддержка</h3>
+                                <p class="text-gray-700 text-sm mb-2">
+                                    Получите помощь от нашей команды технической поддержки по вопросам интеграции.
+                                </p>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Связаться с поддержкой <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

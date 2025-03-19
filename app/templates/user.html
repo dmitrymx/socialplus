@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }} - SocialPlus{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Шапка профиля -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 relative animate-gradient">
+            <!-- Кнопка редактирования профиля -->
+            {% if user == current_user %}
+            <a href="{{ url_for('main.edit_profile') }}" class="absolute top-4 right-4 bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all duration-300 shadow-md hover:shadow-lg hover-glow">
+                <i class="fas fa-edit mr-2"></i> Редактировать профиль
+            </a>
+            {% elif current_user.is_authenticated %}
+                {% if current_user.is_following(user) %}
+                <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post" class="absolute top-4 right-4">
+                    <button type="submit" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all duration-300 shadow-md hover:shadow-lg hover-glow">
+                        <i class="fas fa-user-minus mr-2"></i> Отписаться
+                    </button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('main.follow', username=user.username) }}" method="post" class="absolute top-4 right-4">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg hover-glow">
+                        <i class="fas fa-user-plus mr-2"></i> Подписаться
+                    </button>
+                </form>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <div class="px-6 pb-6 relative">
+            <div class="flex flex-col md:flex-row items-start md:items-end -mt-16 mb-6">
+                <div class="relative z-10 animate-fade-up">
+                    <img src="{{ url_for('static', filename='images/' + user.avatar_url) }}" 
+                         alt="{{ user.username }}" 
+                         class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg hover-scale">
+                    <div class="absolute bottom-0 right-0 w-5 h-5 bg-green-400 rounded-full border-2 border-white animate-pulse-custom"></div>
+                </div>
+                <div class="md:ml-6 mt-4 md:mt-0 animate-fade-up" style="animation-delay: 0.2s;">
+                    <h1 class="text-3xl font-bold text-gray-900">{{ user.username }}</h1>
+                    <p class="text-gray-600">@{{ user.username }}</p>
+                    <p class="text-gray-500 text-sm mt-1">
+                        <i class="far fa-clock mr-1"></i> Последний раз был(а) {{ user.last_seen.strftime('%d.%m.%Y %H:%M') if user.last_seen else 'давно' }}
+                    </p>
+                    
+                    <!-- Социальные сети -->
+                    <div class="flex mt-3 space-x-2">
+                        {% if user.facebook_url %}
+                        <a href="{{ user.facebook_url }}" target="_blank" class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center hover:bg-blue-200 transition-all duration-300 hover-scale">
+                            <i class="fab fa-facebook-f text-blue-600"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.twitter_url %}
+                        <a href="{{ user.twitter_url }}" target="_blank" class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center hover:bg-blue-200 transition-all duration-300 hover-scale">
+                            <i class="fab fa-twitter text-blue-400"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.instagram_url %}
+                        <a href="{{ user.instagram_url }}" target="_blank" class="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center hover:bg-pink-200 transition-all duration-300 hover-scale">
+                            <i class="fab fa-instagram text-pink-600"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.linkedin_url %}
+                        <a href="{{ user.linkedin_url }}" target="_blank" class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center hover:bg-blue-200 transition-all duration-300 hover-scale">
+                            <i class="fab fa-linkedin-in text-blue-700"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if user.github_url %}
+                        <a href="{{ user.github_url }}" target="_blank" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all duration-300 hover-scale">
+                            <i class="fab fa-github text-gray-800"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-4 mb-6 animate-fade-up" style="animation-delay: 0.3s;">
+                <div class="flex items-center bg-gray-100 px-4 py-2 rounded-lg hover-lift hover-glow">
+                    <div class="text-center">
+                        <div class="text-xl font-bold text-gray-800">{{ user.posts.count() }}</div>
+                        <div class="text-gray-500 text-sm">Постов</div>
+                    </div>
+                </div>
+                <div class="flex items-center bg-gray-100 px-4 py-2 rounded-lg hover-lift hover-glow">
+                    <div class="text-center">
+                        <div class="text-xl font-bold text-gray-800">{{ user.followers.count() }}</div>
+                        <div class="text-gray-500 text-sm">Подписчиков</div>
+                    </div>
+                </div>
+                <div class="flex items-center bg-gray-100 px-4 py-2 rounded-lg hover-lift hover-glow">
+                    <div class="text-center">
+                        <div class="text-xl font-bold text-gray-800">{{ user.followed.count() }}</div>
+                        <div class="text-gray-500 text-sm">Подписок</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t pt-6 animate-fade-up" style="animation-delay: 0.4s;">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">О пользователе</h3>
+                <p class="text-gray-700">{{ user.bio or 'Пользователь не добавил информацию о себе.' }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Вкладки -->
+    <div x-data="{ activeTab: 'posts' }" class="mb-6">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden glass-effect hover-lift">
+            <div class="flex border-b">
+                <button @click="activeTab = 'posts'" 
+                        :class="{'border-b-2 border-blue-600 text-blue-600': activeTab === 'posts'}"
+                        class="flex-1 py-4 px-6 font-medium hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-th-large mr-2"></i> Посты
+                </button>
+                <button @click="activeTab = 'followers'" 
+                        :class="{'border-b-2 border-blue-600 text-blue-600': activeTab === 'followers'}"
+                        class="flex-1 py-4 px-6 font-medium hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-users mr-2"></i> Подписчики
+                </button>
+                <button @click="activeTab = 'following'" 
+                        :class="{'border-b-2 border-blue-600 text-blue-600': activeTab === 'following'}"
+                        class="flex-1 py-4 px-6 font-medium hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-user-friends mr-2"></i> Подписки
+                </button>
+            </div>
+            
+            <!-- Вкладка с постами -->
+            <div x-show="activeTab === 'posts'" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform scale-95"
+                 x-transition:enter-end="opacity-100 transform scale-100">
+                {% if user.posts.count() > 0 %}
+                <div class="divide-y">
+                    {% for post in user.posts %}
+                    <div class="p-6 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                        <div class="flex items-start">
+                            <img src="{{ url_for('static', filename='images/' + user.avatar_url) }}" 
+                                 alt="{{ user.username }}" 
+                                 class="w-12 h-12 rounded-full object-cover border-2 border-gray-200 mr-4 hover-scale">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <a href="{{ url_for('main.user', username=user.username) }}" class="font-bold text-gray-900 hover:text-blue-600 transition-all duration-300">{{ user.username }}</a>
+                                    <span class="mx-2 text-gray-400">•</span>
+                                    <span class="text-gray-500 text-sm">{{ post.timestamp.strftime('%d.%m.%Y %H:%M') }}</span>
+                                </div>
+                                <p class="text-gray-800 mb-3">{{ post.content }}</p>
+                                
+                                {% if post.image_url %}
+                                <div class="mb-3 rounded-lg overflow-hidden">
+                                    <img src="{{ url_for('static', filename='images/' + post.image_url) }}" 
+                                         alt="Изображение поста" 
+                                         class="w-full rounded-lg transition-all duration-500 hover:scale-105">
+                                </div>
+                                {% endif %}
+                                
+                                <div class="flex items-center text-gray-500">
+                                    <a href="{{ url_for('posts.post', id=post.id) }}" class="flex items-center mr-4 hover:text-red-500 transition-all duration-300">
+                                        <i class="far fa-heart mr-1 hover-scale"></i> {{ post.like_count() }}
+                                    </a>
+                                    <a href="{{ url_for('posts.post', id=post.id) }}" class="flex items-center hover:text-blue-600 transition-all duration-300">
+                                        <i class="far fa-comment mr-1 hover-scale"></i> {{ post.comments.count() }}
+                                    </a>
+                                    
+                                    {% if current_user == user %}
+                                    <a href="{{ url_for('posts.delete_post', id=post.id) }}" 
+                                       class="ml-auto text-red-500 hover:text-red-700 transition-all duration-300"
+                                       onclick="return confirm('Вы уверены, что хотите удалить этот пост?')">
+                                        <i class="fas fa-trash hover-scale"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="p-8 text-center">
+                    <div class="text-gray-400 mb-4 animate-bounce-custom">
+                        <i class="fas fa-newspaper text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Нет постов</h3>
+                    <p class="text-gray-600 mb-4">Пользователь еще не опубликовал ни одного поста</p>
+                    
+                    {% if user == current_user %}
+                    <a href="{{ url_for('posts.create_post') }}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover-glow">
+                        <i class="fas fa-plus-circle mr-2"></i> Создать пост
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Вкладка с подписчиками -->
+            <div x-show="activeTab === 'followers'" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform scale-95"
+                 x-transition:enter-end="opacity-100 transform scale-100">
+                {% if user.followers.count() > 0 %}
+                <div class="divide-y">
+                    {% for follower in user.followers %}
+                    <div class="p-4 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <a href="{{ url_for('main.user', username=follower.username) }}" class="block mr-4">
+                                    <img src="{{ url_for('static', filename='images/' + follower.avatar_url) }}" 
+                                         alt="{{ follower.username }}" 
+                                         class="w-12 h-12 rounded-full object-cover border-2 border-gray-200 hover-scale">
+                                </a>
+                                <div>
+                                    <a href="{{ url_for('main.user', username=follower.username) }}" class="font-bold text-gray-900 hover:text-blue-600 transition-all duration-300">{{ follower.username }}</a>
+                                    <p class="text-gray-500 text-sm">{{ follower.bio|truncate(60) if follower.bio else 'Нет информации о пользователе' }}</p>
+                                </div>
+                            </div>
+                            
+                            {% if current_user.is_authenticated and current_user != follower %}
+                                {% if current_user.is_following(follower) %}
+                                <form action="{{ url_for('main.unfollow', username=follower.username) }}" method="post">
+                                    <button type="submit" class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-all duration-300 text-sm hover-glow">
+                                        <i class="fas fa-user-minus mr-1"></i> Отписаться
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form action="{{ url_for('main.follow', username=follower.username) }}" method="post">
+                                    <button type="submit" class="px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-sm hover-glow">
+                                        <i class="fas fa-user-plus mr-1"></i> Подписаться
+                                    </button>
+                                </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="p-8 text-center">
+                    <div class="text-gray-400 mb-4 animate-bounce-custom">
+                        <i class="fas fa-users text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Нет подписчиков</h3>
+                    <p class="text-gray-600">У пользователя пока нет подписчиков</p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Вкладка с подписками -->
+            <div x-show="activeTab === 'following'" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform scale-95"
+                 x-transition:enter-end="opacity-100 transform scale-100">
+                {% if user.followed.count() > 0 %}
+                <div class="divide-y">
+                    {% for followed in user.followed %}
+                    <div class="p-4 hover:bg-gray-50 transition-all duration-300 animate-fade-up" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <a href="{{ url_for('main.user', username=followed.username) }}" class="block mr-4">
+                                    <img src="{{ url_for('static', filename='images/' + followed.avatar_url) }}" 
+                                         alt="{{ followed.username }}" 
+                                         class="w-12 h-12 rounded-full object-cover border-2 border-gray-200 hover-scale">
+                                </a>
+                                <div>
+                                    <a href="{{ url_for('main.user', username=followed.username) }}" class="font-bold text-gray-900 hover:text-blue-600 transition-all duration-300">{{ followed.username }}</a>
+                                    <p class="text-gray-500 text-sm">{{ followed.bio|truncate(60) if followed.bio else 'Нет информации о пользователе' }}</p>
+                                </div>
+                            </div>
+                            
+                            {% if current_user.is_authenticated and current_user != followed %}
+                                {% if current_user.is_following(followed) %}
+                                <form action="{{ url_for('main.unfollow', username=followed.username) }}" method="post">
+                                    <button type="submit" class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-all duration-300 text-sm hover-glow">
+                                        <i class="fas fa-user-minus mr-1"></i> Отписаться
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form action="{{ url_for('main.follow', username=followed.username) }}" method="post">
+                                    <button type="submit" class="px-3 py-1 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 text-sm hover-glow">
+                                        <i class="fas fa-user-plus mr-1"></i> Подписаться
+                                    </button>
+                                </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="p-8 text-center">
+                    <div class="text-gray-400 mb-4 animate-bounce-custom">
+                        <i class="fas fa-user-friends text-6xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Нет подписок</h3>
+                    <p class="text-gray-600">Пользователь пока ни на кого не подписан</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function likePost(postId) {
+        fetch(`/like/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const likeBtn = document.getElementById(`like-btn-${postId}`);
+            const likeCount = document.getElementById(`like-count-${postId}`);
+            
+            if (data.status === 'liked') {
+                likeBtn.querySelector('i').classList.remove('far');
+                likeBtn.querySelector('i').classList.add('fas');
+                likeBtn.classList.add('text-red-500');
+            } else {
+                likeBtn.querySelector('i').classList.remove('fas');
+                likeBtn.querySelector('i').classList.add('far');
+                likeBtn.classList.remove('text-red-500');
+            }
+            
+            likeCount.textContent = data.count;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+{% endblock %} 

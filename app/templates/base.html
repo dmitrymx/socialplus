@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true', animationsDisabled: localStorage.getItem('animationsDisabled') === 'true' }" 
+      :class="{ 'dark': darkMode, 'animations-disabled': animationsDisabled }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SocialPlus{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        /* Темная тема */
+        .dark {
+            color-scheme: dark;
+        }
+        .dark body {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .dark .bg-white {
+            background-color: #1e1e1e !important;
+        }
+        .dark .text-gray-700, .dark .text-gray-800, .dark .text-gray-900 {
+            color: #e0e0e0 !important;
+        }
+        .dark .text-gray-500, .dark .text-gray-600 {
+            color: #a0a0a0 !important;
+        }
+        .dark .border-gray-200, .dark .border-gray-300 {
+            border-color: #333 !important;
+        }
+        .dark .bg-gray-50, .dark .bg-gray-100 {
+            background-color: #2a2a2a !important;
+        }
+        .dark .hover\:bg-gray-50:hover {
+            background-color: #333 !important;
+        }
+        .dark .glass-effect {
+            background-color: rgba(30, 30, 30, 0.8) !important;
+        }
+        
+        /* Отключение анимаций */
+        .animations-disabled * {
+            animation: none !important;
+            transition: none !important;
+            transform: none !important;
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-100">
+    <!-- Частицы для фона -->
+    <div class="particles" id="particles" x-show="!animationsDisabled"></div>
+    
+    <!-- Навигационная панель -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ url_for('main.index') }}" class="flex items-center">
+                        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 animate-pulse-custom">
+                            <i class="fas fa-globe animate-spin-slow mr-2"></i> SocialPlus
+                        </div>
+                    </a>
+                    <div class="hidden md:ml-6 md:flex md:space-x-4">
+                        <a href="{{ url_for('main.index') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                            <i class="fas fa-home mr-1"></i> Главная
+                        </a>
+                        <a href="{{ url_for('main.explore') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                            <i class="fas fa-compass mr-1 animate-pulse-custom"></i> Исследовать
+                        </a>
+                        <a href="{{ url_for('main.groups') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                            <i class="fas fa-users mr-1"></i> Группы
+                        </a>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('notifications.index') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300 relative">
+                            <i class="fas fa-bell mr-1"></i> Уведомления
+                            {% set unread_count = current_user.notifications|selectattr('is_read', 'equalto', false)|list|length %}
+                            {% if unread_count > 0 %}
+                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{ unread_count }}</span>
+                            {% endif %}
+                        </a>
+                        <a href="{{ url_for('messages.inbox') }}" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                            <i class="fas fa-envelope mr-1"></i> Сообщения
+                            <span class="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 ml-1">2</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="relative mr-2" x-data="{ open: false }">
+                        <button @click="open = !open" class="p-2 rounded-full text-gray-500 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-all duration-300">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <div x-show="open" 
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg p-2 glass-effect">
+                            <form action="{{ url_for('main.search') }}" method="get">
+                                <div class="flex">
+                                    <input type="text" name="q" placeholder="Поиск..." class="w-full px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                                    <button type="submit" class="px-3 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-all duration-300">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    {% if current_user.is_authenticated %}
+                    <div class="relative ml-3" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center">
+                            <img src="{{ url_for('static', filename='images/' + current_user.avatar_url) }}" 
+                                 alt="{{ current_user.username }}" 
+                                 class="w-8 h-8 rounded-full object-cover border-2 border-blue-500 hover-scale">
+                            <span class="ml-2 text-gray-700 font-medium hidden md:block">{{ current_user.username }}</span>
+                            <i class="fas fa-chevron-down ml-1 text-gray-500 text-xs"></i>
+                        </button>
+                        <div x-show="open" 
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 glass-effect">
+                            <a href="{{ url_for('main.user', username=current_user.username) }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300">
+                                <i class="fas fa-user mr-2"></i> Мой профиль
+                            </a>
+                            <a href="{{ url_for('main.edit_profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300">
+                                <i class="fas fa-cog mr-2"></i> Настройки
+                            </a>
+                            <div class="px-4 py-2 border-t">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-700">Темная тема</span>
+                                    <button @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)" 
+                                            class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none"
+                                            :class="darkMode ? 'bg-blue-600' : 'bg-gray-300'">
+                                        <span class="inline-block w-4 h-4 transform bg-white rounded-full transition-transform"
+                                              :class="darkMode ? 'translate-x-6' : 'translate-x-1'"></span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-700">Анимации</span>
+                                    <button @click="animationsDisabled = !animationsDisabled; localStorage.setItem('animationsDisabled', animationsDisabled)" 
+                                            class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none"
+                                            :class="animationsDisabled ? 'bg-gray-300' : 'bg-blue-600'">
+                                        <span class="inline-block w-4 h-4 transform bg-white rounded-full transition-transform"
+                                              :class="animationsDisabled ? 'translate-x-1' : 'translate-x-6'"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-300 border-t">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Выйти
+                            </a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="flex items-center space-x-2">
+                        <a href="{{ url_for('auth.login') }}" class="px-4 py-2 rounded-lg text-blue-600 border border-blue-600 hover:bg-blue-50 transition-all duration-300">
+                            <i class="fas fa-sign-in-alt mr-1"></i> Войти
+                        </a>
+                        <a href="{{ url_for('auth.register') }}" class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300">
+                            <i class="fas fa-user-plus mr-1"></i> Регистрация
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Мобильное меню -->
+        <div class="md:hidden border-t" x-data="{ open: false }">
+            <button @click="open = !open" class="w-full flex justify-center items-center py-2 text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                <i class="fas" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+            <div x-show="open" class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{{ url_for('main.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-home mr-2"></i> Главная
+                </a>
+                <a href="{{ url_for('main.explore') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-compass mr-2"></i> Исследовать
+                </a>
+                <a href="{{ url_for('main.groups') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-users mr-2"></i> Группы
+                </a>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('messages.inbox') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-envelope mr-2"></i> Сообщения
+                    <span class="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 ml-1">2</span>
+                </a>
+                <a href="{{ url_for('notifications.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-300">
+                    <i class="fas fa-bell mr-2"></i> Уведомления
+                    <span class="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 ml-1">3</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Сообщения и уведомления -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="mb-4">
+            {% for category, message in messages %}
+            <div class="p-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %} animate-once animate-fade-up glass-effect" 
+                 x-data="{ show: true }" 
+                 x-show="show" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform translate-y-2"
+                 x-transition:enter-end="opacity-100 transform translate-y-0"
+                 x-transition:leave="transition ease-in duration-300"
+                 x-transition:leave-start="opacity-100 transform translate-y-0"
+                 x-transition:leave-end="opacity-0 transform translate-y-2">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas {% if category == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button @click="show = false" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+    
+    <!-- Основной контент -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Футер -->
+    <footer class="mt-12 footer">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div class="mb-6 md:mb-0">
+                    <a href="{{ url_for('main.index') }}" class="flex items-center">
+                        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                            <i class="fas fa-globe mr-2"></i> SocialPlus
+                        </div>
+                    </a>
+                    <p class="text-gray-600 mt-2 max-w-md">Присоединяйтесь к нашему сообществу и делитесь своими мыслями с миром. Создавайте, общайтесь, вдохновляйтесь!</p>
+                </div>
+                <div class="social-buttons">
+                    <a href="#" class="social-button social-facebook hover-scale">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-button social-twitter hover-scale">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-button social-instagram hover-scale">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-button social-youtube hover-scale">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-button social-telegram hover-scale">
+                        <i class="fab fa-telegram-plane"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <a href="{{ url_for('main.about') }}" class="footer-link">О нас</a>
+                <a href="{{ url_for('main.contact') }}" class="footer-link">Контакты</a>
+                <a href="{{ url_for('main.privacy') }}" class="footer-link">Политика конфиденциальности</a>
+                <a href="{{ url_for('main.terms') }}" class="footer-link">Условия использования</a>
+                <a href="{{ url_for('main.help') }}" class="footer-link">Помощь</a>
+                <a href="{{ url_for('main.careers') }}" class="footer-link">Карьера</a>
+                <a href="{{ url_for('main.developers') }}" class="footer-link">Разработчикам</a>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2025 SocialPlus. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Скрипты -->
+    <script>
+        // Создание частиц для фона
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Случайные размеры и позиции
+                const size = Math.random() * 20 + 5;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.backgroundColor = color;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
+        
+        // Функция для добавления эмодзи в текстовое поле
+        function addEmoji(emoji, inputId) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const text = input.value;
+                const before = text.substring(0, start);
+                const after = text.substring(end, text.length);
+                input.value = before + emoji + after;
+                input.selectionStart = input.selectionEnd = start + emoji.length;
+                input.focus();
+            }
+        }
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

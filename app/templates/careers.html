@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block title %}Карьера - SocialPlus{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white animate-gradient">
+            <h1 class="text-3xl font-bold flex items-center">
+                <i class="fas fa-briefcase mr-3 animate-pulse-custom"></i> Карьера в SocialPlus
+            </h1>
+            <p class="text-blue-100 mt-2">Присоединяйтесь к нашей команде и создавайте будущее социальных сетей</p>
+        </div>
+        
+        <div class="p-6">
+            <div class="space-y-8">
+                <div class="animate-fade-up" style="animation-delay: 0.1s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Почему стоит работать с нами</h2>
+                    <p class="text-gray-700 mb-4">
+                        В SocialPlus мы создаем инновационную платформу, которая меняет способ общения людей в интернете. 
+                        Мы ищем талантливых и увлеченных специалистов, которые разделяют наше видение и готовы внести свой вклад 
+                        в развитие нашего продукта.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-blue-50 p-5 rounded-xl hover:shadow-md transition-all duration-300">
+                            <div class="text-blue-600 text-3xl mb-3">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Инновации</h3>
+                            <p class="text-gray-700 text-sm">
+                                Мы постоянно экспериментируем и внедряем новые технологии, чтобы создавать лучшие продукты для наших пользователей.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-5 rounded-xl hover:shadow-md transition-all duration-300">
+                            <div class="text-purple-600 text-3xl mb-3">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Команда</h3>
+                            <p class="text-gray-700 text-sm">
+                                Мы ценим разнообразие и создаем инклюзивную среду, где каждый может реализовать свой потенциал.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-green-50 p-5 rounded-xl hover:shadow-md transition-all duration-300">
+                            <div class="text-green-600 text-3xl mb-3">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-2">Рост</h3>
+                            <p class="text-gray-700 text-sm">
+                                Мы поддерживаем профессиональное развитие и предоставляем возможности для обучения и карьерного роста.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.2s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Преимущества работы в SocialPlus</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-laptop-house text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Гибкий график</h3>
+                                <p class="text-gray-700 text-sm">
+                                    Мы предлагаем гибкий график работы и возможность работать удаленно.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-heartbeat text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Медицинская страховка</h3>
+                                <p class="text-gray-700 text-sm">
+                                    Полное медицинское страхование для вас и вашей семьи.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-graduation-cap text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Обучение</h3>
+                                <p class="text-gray-700 text-sm">
+                                    Бюджет на обучение и посещение профессиональных конференций.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-umbrella-beach text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Отпуск</h3>
+                                <p class="text-gray-700 text-sm">
+                                    Оплачиваемый отпуск и дополнительные выходные дни.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-dumbbell text-red-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Фитнес</h3>
+                                <p class="text-gray-700 text-sm">
+                                    Компенсация абонемента в спортзал и программы поддержки здоровья.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-utensils text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-1">Питание</h3>
+                                <p class="text-gray-700 text-sm">
+                                    Бесплатные обеды и закуски в офисе.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.3s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Открытые вакансии</h2>
+                    <div class="space-y-4">
+                        <div class="border rounded-lg overflow-hidden hover:shadow-md transition-all duration-300">
+                            <div class="p-4 bg-gray-50 font-medium text-gray-800 flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Senior Frontend Developer</h3>
+                                    <div class="text-gray-500 text-sm">Москва / Удаленно</div>
+                                </div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">
+                                    Полная занятость
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <p class="text-gray-700 mb-3">
+                                    Мы ищем опытного Frontend-разработчика для создания современных и отзывчивых пользовательских интерфейсов.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">React</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">TypeScript</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Tailwind CSS</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Redux</span>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded-lg overflow-hidden hover:shadow-md transition-all duration-300">
+                            <div class="p-4 bg-gray-50 font-medium text-gray-800 flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Backend Developer (Python)</h3>
+                                    <div class="text-gray-500 text-sm">Москва / Удаленно</div>
+                                </div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">
+                                    Полная занятость
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <p class="text-gray-700 mb-3">
+                                    Мы ищем Backend-разработчика для работы над API и серверной частью нашей платформы.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Python</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Flask</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">SQLAlchemy</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">PostgreSQL</span>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded-lg overflow-hidden hover:shadow-md transition-all duration-300">
+                            <div class="p-4 bg-gray-50 font-medium text-gray-800 flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">UX/UI Designer</h3>
+                                    <div class="text-gray-500 text-sm">Москва / Удаленно</div>
+                                </div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">
+                                    Полная занятость
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <p class="text-gray-700 mb-3">
+                                    Мы ищем талантливого UX/UI дизайнера для создания красивых и удобных интерфейсов.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Figma</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Adobe XD</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Prototyping</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">User Research</span>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 transition-all duration-300 text-sm">
+                                    Подробнее <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <a href="#" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover-glow">
+                            Смотреть все вакансии
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.4s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Процесс отбора</h2>
+                    <div class="relative">
+                        <div class="absolute left-4 top-0 h-full w-0.5 bg-gray-200"></div>
+                        
+                        <div class="relative pl-12 pb-8">
+                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                                1
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Рассмотрение резюме</h3>
+                            <p class="text-gray-700 text-sm">
+                                Мы рассматриваем ваше резюме и портфолио, чтобы оценить ваш опыт и навыки.
+                            </p>
+                        </div>
+                        
+                        <div class="relative pl-12 pb-8">
+                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                                2
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Техническое интервью</h3>
+                            <p class="text-gray-700 text-sm">
+                                Мы проводим техническое интервью, чтобы оценить ваши профессиональные навыки и знания.
+                            </p>
+                        </div>
+                        
+                        <div class="relative pl-12 pb-8">
+                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                                3
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Тестовое задание</h3>
+                            <p class="text-gray-700 text-sm">
+                                Мы предлагаем вам выполнить небольшое тестовое задание, чтобы оценить ваши практические навыки.
+                            </p>
+                        </div>
+                        
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 top-1 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                                4
+                            </div>
+                            <h3 class="font-bold text-gray-800 mb-1">Финальное интервью</h3>
+                            <p class="text-gray-700 text-sm">
+                                Финальное интервью с руководителем команды и HR-специалистом для обсуждения условий работы.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-up" style="animation-delay: 0.5s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-3">Отзывы сотрудников</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-3">
+                                <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Александр" class="w-12 h-12 rounded-full object-cover mr-3">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Александр</h3>
+                                    <p class="text-gray-500 text-sm">Frontend Developer</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                "Работа в SocialPlus — это возможность постоянно развиваться и работать с новейшими технологиями. 
+                                Здесь отличная команда и дружественная атмосфера."
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-3">
+                                <img src="{{ url_for('static', filename='images/team2.jpg') }}" alt="Мария" class="w-12 h-12 rounded-full object-cover mr-3">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Мария</h3>
+                                    <p class="text-gray-500 text-sm">UX Designer</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-sm">
+                                "Я ценю возможность работать над продуктом, которым пользуются миллионы людей. 
+                                В SocialPlus я могу воплощать свои идеи и видеть их влияние на пользователей."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-6 bg-blue-50 rounded-xl animate-fade-up" style="animation-delay: 0.6s;">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Не нашли подходящую вакансию?</h2>
+                    <p class="text-gray-700 mb-4">
+                        Если вы не нашли подходящую вакансию, но хотите присоединиться к нашей команде, отправьте нам свое резюме. 
+                        Мы всегда рады талантливым специалистам!
+                    </p>
+                    <a href="{{ url_for('main.contact') }}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover-glow">
+                        <i class="fas fa-paper-plane mr-2"></i> Отправить резюме
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

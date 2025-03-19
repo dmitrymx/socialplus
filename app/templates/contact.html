@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Контакты - SocialPlus{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect">
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white animate-gradient">
+            <h1 class="text-3xl font-bold flex items-center">
+                <i class="fas fa-envelope mr-3 animate-pulse-custom"></i> Свяжитесь с нами
+            </h1>
+            <p class="text-blue-100 mt-2">Мы всегда рады помочь вам</p>
+        </div>
+        
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6 animate-fade-up" style="animation-delay: 0.1s;">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-3">Напишите нам</h2>
+                        <p class="text-gray-700 mb-4">
+                            Заполните форму, и мы свяжемся с вами в ближайшее время.
+                        </p>
+                        
+                        <form class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-1">Ваше имя</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-gray-700 font-medium mb-1">Тема</label>
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-700 font-medium mb-1">Сообщение</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 hover-glow">
+                                <i class="fas fa-paper-plane mr-2"></i> Отправить сообщение
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="space-y-6 animate-fade-up" style="animation-delay: 0.2s;">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-3">Контактная информация</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Адрес</h3>
+                                    <p class="text-gray-700">ул. Примерная, 123, Москва, Россия</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Телефон</h3>
+                                    <p class="text-gray-700">+7 (123) 456-78-90</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Email</h3>
+                                    <p class="text-gray-700">info@socialplus.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-clock text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Часы работы</h3>
+                                    <p class="text-gray-700">Пн-Пт: 9:00 - 18:00</p>
+                                    <p class="text-gray-700">Сб-Вс: Выходной</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-3">Мы в социальных сетях</h2>
+                        <div class="flex space-x-3">
+                            <a href="#" class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 transition-all duration-300 hover-scale">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white hover:bg-blue-500 transition-all duration-300 hover-scale">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-pink-600 flex items-center justify-center text-white hover:bg-pink-700 transition-all duration-300 hover-scale">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white hover:bg-red-700 transition-all duration-300 hover-scale">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white hover:bg-blue-900 transition-all duration-300 hover-scale">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6 hover-lift glass-effect animate-fade-up" style="animation-delay: 0.3s;">
+        <div class="p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Часто задаваемые вопросы</h2>
+            <div class="space-y-4">
+                <div class="border rounded-lg overflow-hidden">
+                    <div class="p-4 bg-gray-50 font-medium text-gray-800">
+                        Как зарегистрироваться на платформе?
+                    </div>
+                    <div class="p-4 text-gray-700">
+                        Для регистрации на платформе перейдите на страницу регистрации, заполните необходимые поля и следуйте инструкциям.
+                    </div>
+                </div>
+                
+                <div class="border rounded-lg overflow-hidden">
+                    <div class="p-4 bg-gray-50 font-medium text-gray-800">
+                        Как изменить пароль?
+                    </div>
+                    <div class="p-4 text-gray-700">
+                        Вы можете изменить пароль в настройках вашего профиля или воспользоваться функцией восстановления пароля.
+                    </div>
+                </div>
+                
+                <div class="border rounded-lg overflow-hidden">
+                    <div class="p-4 bg-gray-50 font-medium text-gray-800">
+                        Как удалить аккаунт?
+                    </div>
+                    <div class="p-4 text-gray-700">
+                        Для удаления аккаунта перейдите в настройки профиля, выберите раздел "Удаление аккаунта" и следуйте инструкциям.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
