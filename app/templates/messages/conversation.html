@@ -46,7 +46,7 @@
                         {% if message.sender_id == current_user.id %}
                             <div class="flex justify-end">
                                 <div class="message-bubble message-sent">
-                                    <p>{{ message.content }}</p>
+                                    <p>{{ message.formatted_content() | safe }}</p>
                                     <div class="message-time text-right">
                                         {{ message.timestamp.strftime('%H:%M') }}
                                         <i class="fas fa-check-double ml-1 text-blue-300"></i>
@@ -61,7 +61,7 @@
                                          class="w-8 h-8 rounded-full object-cover">
                                 </div>
                                 <div class="message-bubble message-received">
-                                    <p>{{ message.content }}</p>
+                                    <p>{{ message.formatted_content() | safe }}</p>
                                     <div class="message-time">
                                         {{ message.timestamp.strftime('%H:%M') }}
                                     </div>
@@ -81,6 +81,7 @@
         <!-- Форма отправки сообщения -->
         <div class="p-4 border-t" x-data="{ showEmoji: false, message: '' }">
             <form action="{{ url_for('messages.conversation', user_id=other_user.id) }}" method="post" class="flex items-end">
+                {{ form.hidden_tag() }}
                 <div class="relative flex-1">
                     <!-- Эмодзи пикер -->
                     <div x-show="showEmoji" 
@@ -92,22 +93,22 @@
                          x-transition:leave-start="opacity-100 transform scale-100"
                          x-transition:leave-end="opacity-0 transform scale-95"
                          class="emoji-picker">
-                        <button type="button" @click="addEmoji('😀', 'message-input'); message += '😀'">😀</button>
-                        <button type="button" @click="addEmoji('😂', 'message-input'); message += '😂'">😂</button>
-                        <button type="button" @click="addEmoji('😍', 'message-input'); message += '😍'">😍</button>
-                        <button type="button" @click="addEmoji('🥰', 'message-input'); message += '🥰'">🥰</button>
-                        <button type="button" @click="addEmoji('😎', 'message-input'); message += '😎'">😎</button>
-                        <button type="button" @click="addEmoji('👍', 'message-input'); message += '👍'">👍</button>
-                        <button type="button" @click="addEmoji('👏', 'message-input'); message += '👏'">👏</button>
-                        <button type="button" @click="addEmoji('🎉', 'message-input'); message += '🎉'">🎉</button>
-                        <button type="button" @click="addEmoji('❤️', 'message-input'); message += '❤️'">❤️</button>
-                        <button type="button" @click="addEmoji('🔥', 'message-input'); message += '🔥'">🔥</button>
-                        <button type="button" @click="addEmoji('🤔', 'message-input'); message += '🤔'">🤔</button>
-                        <button type="button" @click="addEmoji('😢', 'message-input'); message += '😢'">😢</button>
-                        <button type="button" @click="addEmoji('🙏', 'message-input'); message += '🙏'">🙏</button>
-                        <button type="button" @click="addEmoji('👋', 'message-input'); message += '👋'">👋</button>
-                        <button type="button" @click="addEmoji('🤝', 'message-input'); message += '🤝'">🤝</button>
-                        <button type="button" @click="addEmoji('🙌', 'message-input'); message += '🙌'">🙌</button>
+                        <button type="button" @click="addEmoji('😀'); showEmoji = false" onclick="addEmoji('😀', 'message-input')">😀</button>
+                        <button type="button" @click="addEmoji('😂'); showEmoji = false" onclick="addEmoji('😂', 'message-input')">😂</button>
+                        <button type="button" @click="addEmoji('😍'); showEmoji = false" onclick="addEmoji('😍', 'message-input')">😍</button>
+                        <button type="button" @click="addEmoji('🥰'); showEmoji = false" onclick="addEmoji('🥰', 'message-input')">🥰</button>
+                        <button type="button" @click="addEmoji('😎'); showEmoji = false" onclick="addEmoji('😎', 'message-input')">😎</button>
+                        <button type="button" @click="addEmoji('👍'); showEmoji = false" onclick="addEmoji('👍', 'message-input')">👍</button>
+                        <button type="button" @click="addEmoji('👏'); showEmoji = false" onclick="addEmoji('��', 'message-input')">👏</button>
+                        <button type="button" @click="addEmoji('🎉'); showEmoji = false" onclick="addEmoji('🎉', 'message-input')">🎉</button>
+                        <button type="button" @click="addEmoji('❤️'); showEmoji = false" onclick="addEmoji('❤️', 'message-input')">❤️</button>
+                        <button type="button" @click="addEmoji('🔥'); showEmoji = false" onclick="addEmoji('��', 'message-input')">🔥</button>
+                        <button type="button" @click="addEmoji('🤔'); showEmoji = false" onclick="addEmoji('🤔', 'message-input')">🤔</button>
+                        <button type="button" @click="addEmoji('😢'); showEmoji = false" onclick="addEmoji('��', 'message-input')">😢</button>
+                        <button type="button" @click="addEmoji('🙏'); showEmoji = false" onclick="addEmoji('🙏', 'message-input')">🙏</button>
+                        <button type="button" @click="addEmoji('👋'); showEmoji = false" onclick="addEmoji('👋', 'message-input')">👋</button>
+                        <button type="button" @click="addEmoji('🤝'); showEmoji = false" onclick="addEmoji('🤝', 'message-input')">🤝</button>
+                        <button type="button" @click="addEmoji('🙌'); showEmoji = false" onclick="addEmoji('��', 'message-input')">🙌</button>
                     </div>
                     
                     <div class="flex">
@@ -141,5 +142,20 @@
             this.style.height = (this.scrollHeight) + 'px';
         });
     });
+    
+    // Функция для добавления эмодзи в текстовое поле
+    function addEmoji(emoji, inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const text = input.value;
+            const before = text.substring(0, start);
+            const after = text.substring(end, text.length);
+            input.value = before + emoji + after;
+            input.selectionStart = input.selectionEnd = start + emoji.length;
+            input.focus();
+        }
+    }
 </script>
 {% endblock %} 

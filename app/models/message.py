@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+import emoji
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,4 +28,8 @@ class Message(db.Model):
     recipient = db.relationship('User', foreign_keys=[recipient_id], backref='messages_received')
     
     def __repr__(self):
-        return f'<Message {self.id}>' 
+        return f'<Message {self.id}>'
+    
+    def formatted_content(self):
+        """Преобразует текст с эмодзи-кодами в настоящие эмодзи"""
+        return emoji.emojize(self.content, language='alias') 
