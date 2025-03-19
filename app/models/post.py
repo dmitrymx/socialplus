@@ -101,6 +101,7 @@ class GroupPost(db.Model):
     # Отношения
     likes = db.relationship('GroupPostLike', backref='post', lazy='dynamic', cascade='all, delete-orphan')
     comments = db.relationship('GroupPostComment', backref='post', lazy='dynamic', cascade='all, delete-orphan')
+    author = db.relationship('User', backref='group_posts', foreign_keys=[user_id])
     
     def __repr__(self):
         return f'<GroupPost {self.id}>'
