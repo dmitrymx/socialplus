@@ -5,7 +5,7 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 import emoji
 from app.config import config
 from logging.handlers import RotatingFileHandler
@@ -47,7 +47,7 @@ def create_app(config_name=None):
     # Настройка CSRF для AJAX-запросов
     @app.after_request
     def add_csrf_header(response):
-        response.headers.set('X-CSRFToken', csrf.generate_csrf())
+        response.headers.set('X-CSRFToken', generate_csrf())
         return response
     
     # Добавляем фильтр для эмодзи в Jinja2
