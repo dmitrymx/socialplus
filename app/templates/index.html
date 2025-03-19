@@ -354,11 +354,15 @@
 {% block scripts %}
 <script>
     function likePost(postId) {
-        fetch(`/like/${postId}`, {
+        // Получаем CSRF-токен из метатега
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        fetch(`/posts/like/${postId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
             },
             credentials: 'same-origin'
         })
@@ -387,6 +391,7 @@
     
     function toggleEmojiPicker(pickerId) {
         const picker = document.getElementById(pickerId);
+        if (!picker) return;
         
         // Закрываем предыдущий открытый пикер
         if (activeEmojiPicker && activeEmojiPicker !== picker) {
@@ -400,6 +405,8 @@
     
     function addEmoji(emojiCode, inputId) {
         const input = document.getElementById(inputId);
+        if (!input) return;
+        
         input.value += ` ${emojiCode} `;
         input.focus();
     }
@@ -410,6 +417,14 @@
             activeEmojiPicker.classList.add('hidden');
             activeEmojiPicker = null;
         }
+    });
+    
+    // Закрываем все эмодзи-пикеры при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const emojiPickers = document.querySelectorAll('.emoji-picker');
+        emojiPickers.forEach(picker => {
+            picker.classList.add('hidden');
+        });
     });
 </script>
 {% endblock %} 

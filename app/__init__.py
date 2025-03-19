@@ -1,12 +1,15 @@
 # Пакет приложения SocialPlus 
 
 import os
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 import emoji
 from app.config import config
+from logging.handlers import RotatingFileHandler
+import logging
 
 # Инициализация расширений
 db = SQLAlchemy()
@@ -14,6 +17,7 @@ migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'Пожалуйста, войдите, чтобы получить доступ к этой странице.'
+csrf = CSRFProtect()
 
 def create_app(config_name=None):
     if config_name is None:
@@ -38,6 +42,13 @@ def create_app(config_name=None):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    csrf.init_app(app)
+    
+    # Настройка CSRF для AJAX-запросов
+    @app.after_request
+    def add_csrf_header(response):
+        response.headers.set('X-CSRFToken', csrf.generate_csrf())
+        return response
     
     # Добавляем фильтр для эмодзи в Jinja2
     app.jinja_env.filters['emoji'] = lambda text: emoji.emojize(text, language='alias')
@@ -60,6 +71,19 @@ def create_app(config_name=None):
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+    
+    # Настройка логирования
+    if not app.debug:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        file_handler = RotatingFileHandler('logs/social_network.log', maxBytes=10240, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+        
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('SocialPlus запущена')
     
     return app 
 

@@ -80,39 +80,48 @@
                 
                 {% if is_member %}
                 <div class="p-4 border-b">
-                    <form method="post" action="{{ url_for('posts.create_group_post', group_id=group.id) }}" enctype="multipart/form-data" class="flex flex-col">
-                        <textarea name="content" id="group-post-content" placeholder="Что нового в группе?" 
-                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 mb-3"
-                                  rows="3"></textarea>
-                        
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">
-                                <label class="flex items-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg cursor-pointer hover:bg-gray-200 transition-all duration-300 mr-2">
-                                    <i class="fas fa-image mr-2"></i> Изображение
-                                    <input type="file" name="image" class="hidden" accept="image/*">
-                                </label>
-                                <button type="button" class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-300" 
-                                        onclick="toggleEmojiPicker('emoji-picker-post')">
-                                    <i class="far fa-smile"></i>
-                                </button>
-                                <div id="emoji-picker-post" class="emoji-picker hidden absolute mt-10 bg-white rounded-lg shadow-lg p-2 z-10">
-                                    <div class="grid grid-cols-8 gap-1">
-                                        {% for emoji_code in [':smile:', ':heart:', ':thumbsup:', ':clap:', ':fire:', ':star:', ':thinking:', ':joy:', 
-                                                             ':sunglasses:', ':wink:', ':heart_eyes:', ':kissing_heart:', ':sob:', ':angry:', 
-                                                             ':tada:', ':gift:', ':birthday:', ':balloon:', ':rocket:', ':rainbow:', 
-                                                             ':sunny:', ':moon:', ':cloud:', ':umbrella:', ':snowflake:', ':zap:', 
-                                                             ':ocean:', ':earth_americas:', ':mountain:', ':palm_tree:', ':tulip:', ':rose:'] %}
-                                        <button type="button" class="w-8 h-8 hover:bg-gray-100 rounded" 
-                                                onclick="addEmoji('{{ emoji_code }}', 'group-post-content')">
-                                            {{ emoji_code | emoji }}
-                                        </button>
-                                        {% endfor %}
+                    <form action="{{ url_for('posts.create_group_post', group_id=group.id) }}" method="post" enctype="multipart/form-data" class="bg-white rounded-xl p-4 mb-6 shadow-lg hover-lift glass-effect">
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-3">
+                                <img src="{{ url_for('static', filename='images/' + current_user.avatar_url) }}" 
+                                     alt="{{ current_user.username }}" 
+                                     class="w-12 h-12 rounded-full object-cover border-2 border-gray-200 hover-scale">
+                            </div>
+                            <div class="flex-1">
+                                <div class="mb-2 relative">
+                                    <textarea name="content" id="post-input" rows="3" placeholder="Напишите что-нибудь для группы {{ group.name }}..." 
+                                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"></textarea>
+                                    <button type="button" class="absolute bottom-3 right-3 text-gray-500 hover:text-blue-500" 
+                                            onclick="toggleEmojiPicker('emoji-picker-post')">
+                                        <i class="far fa-smile"></i>
+                                    </button>
+                                    <div id="emoji-picker-post" class="emoji-picker absolute bottom-full right-0 mb-2 bg-white rounded-lg shadow-lg p-2 z-10 hidden">
+                                        <div class="grid grid-cols-8 gap-1">
+                                            {% for emoji_code in [':smile:', ':heart:', ':thumbsup:', ':clap:', ':fire:', ':star:', ':thinking:', ':joy:', 
+                                                                 ':sunglasses:', ':wink:', ':heart_eyes:', ':kissing_heart:', ':sob:', ':angry:', 
+                                                                 ':tada:', ':gift:', ':birthday:', ':balloon:', ':rocket:', ':rainbow:', 
+                                                                 ':sunny:', ':moon:', ':cloud:', ':umbrella:', ':snowflake:', ':zap:', 
+                                                                 ':ocean:', ':earth_americas:', ':mountain:', ':palm_tree:', ':tulip:', ':rose:'] %}
+                                            <button type="button" class="w-8 h-8 hover:bg-gray-100 rounded" 
+                                                    onclick="addEmoji('{{ emoji_code }}', 'post-input')">
+                                                {{ emoji_code | emoji }}
+                                            </button>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="flex flex-wrap justify-between items-center">
+                                    <div class="flex items-center mb-2 sm:mb-0">
+                                        <label for="post-image" class="cursor-pointer text-gray-500 hover:text-blue-500 transition-all duration-300 mr-4">
+                                            <i class="far fa-image mr-1"></i> Фото
+                                        </label>
+                                        <input type="file" id="post-image" name="image" class="hidden" accept="image/*">
+                                    </div>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover-glow flex items-center">
+                                        <i class="fas fa-paper-plane mr-2"></i> Опубликовать
+                                    </button>
+                                </div>
                             </div>
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300">
-                                <i class="fas fa-paper-plane mr-2"></i> Опубликовать
-                            </button>
                         </div>
                     </form>
                 </div>
@@ -189,11 +198,15 @@
 {% block scripts %}
 <script>
     function likeGroupPost(postId) {
+        // Получаем CSRF-токен из метатега
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
         fetch(`/posts/like_group_post/${postId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
             },
             credentials: 'same-origin'
         })
@@ -222,6 +235,7 @@
     
     function toggleEmojiPicker(pickerId) {
         const picker = document.getElementById(pickerId);
+        if (!picker) return;
         
         // Закрываем предыдущий открытый пикер
         if (activeEmojiPicker && activeEmojiPicker !== picker) {
@@ -235,6 +249,8 @@
     
     function addEmoji(emojiCode, inputId) {
         const input = document.getElementById(inputId);
+        if (!input) return;
+        
         input.value += ` ${emojiCode} `;
         input.focus();
     }
@@ -245,6 +261,14 @@
             activeEmojiPicker.classList.add('hidden');
             activeEmojiPicker = null;
         }
+    });
+    
+    // Закрываем все эмодзи-пикеры при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const emojiPickers = document.querySelectorAll('.emoji-picker');
+        emojiPickers.forEach(picker => {
+            picker.classList.add('hidden');
+        });
     });
 </script>
 {% endblock %} 
